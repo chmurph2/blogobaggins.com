@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Getting Real Daily
+title: Getting Real (Daily)
 ---
 
 h1. {{ page.title }}
@@ -11,10 +11,10 @@ One year ago I sat down to read "37signals’s":http://37signals.com popular boo
 
 Recently, the "CEO"::http://twitter.com/jasonfried of 37signals "twittered":http://twitter.com/jasonfried/status/1188017567 about "The Random Reality" "bookmarklet":http://is.gd/kniX that, when clicked, serves up one of the book's essays randomly.  This got me thinking; instead of a _random_ essay, I would rather subscribe to a daily feed of the book in chronological order.  That is, one essay a day to start things off right. So, I whipped up something that I (and you) can subscribe to:
 
-Getting Real Daily
+Getting Real (Daily)
 "http://gettingrealdaily.com":http://gettingrealdaily.com
 
-Of course I asked for permission to go live with this site.  I'm still waiting; it's been about a week...
+Of course I asked for permission to go live with this site.  I'm still waiting, it's been about a week...
 
 So, er, go ahead and subscribe to get your daily dose of reality.
 
