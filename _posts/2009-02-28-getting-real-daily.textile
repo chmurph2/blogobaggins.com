@@ -1,20 +1,22 @@
 ---
 layout: post
-title: Getting Real (Daily)
+title: Getting Real (daily)
 ---
 
 h1. {{ page.title }}
 
 p(meta). February 28, 2009 - Leesburg, VA
 
-One year ago I sat down to read "37signals’s":http://37signals.com popular book "Getting Real":http://gettingreal.37signals.com/, which is the "smarter, faster, easier way to build a successful web-based application."  I read it straight through, which isn't typical for me, and ever since then I've been meaning to read it again as a refresher and for inspiration.
+One year ago I sat down to read "37signals’":http://37signals.com popular book "Getting Real":http://gettingreal.37signals.com/, which is the "smarter, faster, easier way to build a successful web-based application."  I read it straight through, which isn't typical for me, and ever since then I've been meaning to read it again as a refresher and for inspiration.
 
 Recently, the "CEO":http://twitter.com/jasonfried of 37signals "twittered":http://twitter.com/jasonfried/status/1188017567 about "The Random Reality" "bookmarklet":http://is.gd/kniX that, when clicked, serves up one of the book's essays randomly.  This got me thinking; instead of a _random_ essay, I would rather subscribe to a daily feed of the book in chronological order.  That is, one essay a day to start things off right. So, I whipped up something that I (and you) can subscribe to:
 
-Getting Real (Daily)
+Getting Real (daily)
 "http://gettingrealdaily.com":http://gettingrealdaily.com
 
 Of course I asked for permission to go live with this site.  I'm still waiting, it's been about a week...
 
 So, er, go ahead and subscribe to get your daily dose of reality.
+
+UPDATE: I've made the "source code":http://github.com/chmurph2/gettingrealdaily/tree/master available on GitHub.
 
