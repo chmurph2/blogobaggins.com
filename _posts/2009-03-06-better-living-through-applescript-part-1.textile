@@ -1,0 +1,40 @@
+---
+layout: post
+title: Better Living Through AppleScript, Part 1
+---
+
+h1. {{ page.title }}
+
+p(meta). March 6, 2009 - Leesburg, VA
+
+I've been heavily trying out "Safari 4":http://www.apple.com/safari/features.html (on OS X) since the beta was announced a couple weeks ago.  There is a lot to like about it: super-fast, the address field is "smarter," Firebug-like support built-in, images scale on zoom, new tab look, and top sites to name the obvious ones.
+
+And some that isn't. I'm switching over from using Firefox 3, though, and there were a few things that I immediately missed that I'd classify as showstoppers:
+
+# No keyboard shortcuts for jumping to a specific tab: command 1-9 (control 1-9 in Windows).
+# No "Copy URL-like":http://copyurlplus.mozdev.org/ functionality for quickly copying the page title and URL.
+# No "undo last closed tab" (including that tab's history).  Apparently I accidentally close tabs all the time, and it's SO nice to undo that when in Firefox.
+
+A wonderful thing about OS X is I can often overcome these problems by using "AppleScript":http://en.wikipedia.org/wiki/Applescript to perform the desired behavior.  I've done so to solve the first two problems.  The third remains a grievance that I hope Apple resolves some day.
+
+The tab shortcut problem is solved using a combination of "Quicksilver":http://is.gd/q7d and Grant Hollingworth's "command-number-tab":http://github.com/granth/command-number-tab/tree/master bundle of AppleScripts.  I assign the keyboard shortcuts for command 1-9 (for Safari "scope" only) using Quicksilver's triggers.
+
+I had to solve the Copy URL problem myself (read: google around and assemble bits and pieces of varying AppleScripts).  Here it is:
+
+{% highlight applescript %}
+tell application "Safari"
+  ignoring case
+    set theURL to URL of front document
+    set theSource to source of front document
+    set AppleScript's text item delimiters to "title>"
+    set theSource to second text item of theSource
+    set AppleScript's text item delimiters to "</"
+    set theTitle to first text item of theSource
+    set the clipboard to theTitle & return & theURL as string
+  end ignoring
+end tell
+{% endhighlight %}
+
+This pulls the URL out of the tab (i.e. the "front document"), picks the title out of the source code, then assigns them both to the clipboard with a carriage return between them.  You can see the "gist":http://gist.github.com/70565 of it here as well. I actually like this apporach better than the Copy URL extension in Firefox since I can now assign a hotkey to it, again using Quicksilver.
+
+I can't say I'm a fan of the AppleScript syntax, but I do love what it can do for me.
