@@ -14,9 +14,7 @@ Recently, the "CEO":http://twitter.com/jasonfried of 37signals "twittered":http:
 Getting Real (daily)
 "http://gettingrealdaily.com":http://gettingrealdaily.com
 
-Of course I asked for permission to go live with this site.  I'm still waiting to hear back...
-
-So, er, go ahead and subscribe to get your daily dose of reality.
+So, go ahead and subscribe to get your daily dose of reality.
 
 *NOTE:* If you subscribe using a newsreader like "Vienna":http://www.vienna-rss.org/vienna2.php you'll see the actual essay embedded in the feed.  If you use a web-based reader like "Google Reader":http://www.google.com/intl/en/googlereader/tour.html then you'll only see the essay title.  This is due to an implementation technicality (i.e. iframes).
 *UPDATE:* I've made the "source code":http://github.com/chmurph2/gettingrealdaily/tree/master available on GitHub.
