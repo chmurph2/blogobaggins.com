@@ -44,4 +44,4 @@ fn3. Included in the "Text" bundle.
 
 fn4. There is one caveat: any bookmarks you've set will get blown away upon save.  This is an annoyance that I've learned to live with out of respect for my peers' diffs.
 
-fn5. I'm aware of the religious debate about "tabs vs. spaces":http://www.jwz.org/doc/tabs-vs-spaces.html, but please, please use spaces instead of tabs.  Tabs cause even more diff cruft, and screws up the formatting in other editors. This isn't a problem if everyone instructs their editors to instead use spaces; the inverse is not true.
+fn5. I'm aware of the religious debate about "tabs vs. spaces":http://www.jwz.org/doc/tabs-vs-spaces.html, but please, please use spaces instead of tabs.  Tabs cause even more diff cruft, and screws up the formatting in other editors. This isn't a problem if everyone instructs their editors to use spaces instead of tabs; the inverse is not true.
