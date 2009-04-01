@@ -15,12 +15,12 @@ html, body {
   height: 100%;
 }
 
-body {
+body {           
   background-color: white;
   font: 13.34px helvetica, arial, clean, sans-serif;
   *font-size: small;
   text-align: center;
-}
+}   
 
 h1, h2, h3, h4, h5, h6 {
   font-size: 100%;
@@ -144,7 +144,7 @@ ul.posts {
 
 /*****************************************************************************/
 /*
-/* Posts
+/* Posts!
 /*
 /*****************************************************************************/
 
