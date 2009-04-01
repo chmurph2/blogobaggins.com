@@ -1,0 +1,47 @@
+---
+layout: post
+title: Waging War on Whitespace (using TextMate)
+---
+
+h1. {{ page.title }}
+
+p(meta). March 31, 2009 - Leesburg, VA
+
+If you've ever written code on a team, you've likely encountered what I call _diff cruft._  Diff cruft is what happens when a developer commits a change to some code that has trailing whitespace (either tabs or spaces) at the end of a line.  When viewing the code changes in a diff, this extraneous whitespace stands out and often distracts from what is important.
+
+For example:
+
+!/images/evil-whitespace.png(Evil whitespace)!
+
+will look like this in a diff (GitHub's diff in this case)...
+
+!/images/distracting_diff_cruft.png(Distracting diff cruft)!
+
+To avoid diff cruft you'll need to instruct your text editor to remove trailing whitespace, preferably _every time you save_ so you don't have to remember to do it.  If this is a built-in feature, great; if not, hopefully your editor empowers you to emulate this functionality yourself[1].
+
+My preferred editor on Mac OS X is TextMate[2].  While it ships with a "Remove Trailing Spaces in Document / Selection"[3] command it does not run it on save.  Here is how I created a macro to do just that:
+
+* Create a command called "Save Document" as follows:
+!/images/save-command.png(Create the "Save Document" command)!
+
+* Record a macro where you run the "Remove Trailing Spaces" command.
+* Then run your "Save Document" command.
+* Save the macro as something like "Strip Whitespace Then Save Document."
+* Assign it to the  ⌘S key equivalent.
+!/images/whitespace-macro.png("Record and save the macro with a key equivalent")!
+
+* Reload your bundles and any document you save will strip trailing whitespace.[4]
+
+So, along with its unruly cousin, the tab[5], trailing whitespace is evil.  Avoiding both, your peers will (or should) thank you for it.
+
+<hr/>
+
+fn1. It doesn't?  It's time to "reconsider":http://en.wikipedia.org/wiki/Emacs "your":http://en.wikipedia.org/wiki/Vim "editor":http://en.wikipedia.org/wiki/Textmate.
+
+fn2. Despite the lack of multiple window panes, and no major update in years. :/
+
+fn3. Included in the "Text" bundle.
+
+fn4. There is one caveat: any bookmarks you've set will get blown away upon save.  This is an annoyance that I've learned to live with out of respect for my peers' diffs.
+
+fn5. I'm aware of the religious debate about tabs vs. spaces, but please, please use spaces instead of tabs.  Tabs cause even more diff cruft, and screws up the formatting in other editors. This isn't a problem if everyone instructs their editors to instead use spaces; the inverse is not true.
