@@ -29,6 +29,6 @@ tell application "Safari"
 end tell
 {% endhighlight %}
 
-This pulls the URL out of the tab (i.e. the "front document"), picks the title out of the current tab, then assigns them both to the clipboard with a carriage return between them.  You can see the "gist":http://gist.github.com/70565 of it here as well. I actually like this approach better than the Copy URL extension in Firefox since I can now assign a hotkey to it, again using Quicksilver.
+This pulls the URL and title out of the tab (i.e. the "front document") then assigns them both to the clipboard with a carriage return between them.  You can see the "gist":http://gist.github.com/70565 of it here as well. I actually like this approach better than the Copy URL extension in Firefox since I can now assign a hotkey to it, again using Quicksilver.
 
 I can't say I'm a fan of the AppleScript syntax, but I do love what it can do for me.
