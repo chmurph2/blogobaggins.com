@@ -23,11 +23,9 @@ I had to solve the Copy URL problem myself (read: google around and assemble bit
 
 {% highlight applescript %}
 tell application "Safari"
-  ignoring case
     set theURL to URL of front document
     set theTitle to name of front document
     set the clipboard to theTitle & return & theURL as string
-  end ignoring
 end tell
 {% endhighlight %}
 
