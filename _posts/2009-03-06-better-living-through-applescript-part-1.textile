@@ -25,16 +25,12 @@ I had to solve the Copy URL problem myself (read: google around and assemble bit
 tell application "Safari"
   ignoring case
     set theURL to URL of front document
-    set theSource to source of front document
-    set AppleScript's text item delimiters to "title>"
-    set theSource to second text item of theSource
-    set AppleScript's text item delimiters to "</"
-    set theTitle to first text item of theSource
+    set theTitle to name of front document
     set the clipboard to theTitle & return & theURL as string
   end ignoring
 end tell
 {% endhighlight %}
 
-This pulls the URL out of the tab (i.e. the "front document"), picks the title out of the source code, then assigns them both to the clipboard with a carriage return between them.  You can see the "gist":http://gist.github.com/70565 of it here as well. I actually like this apporach better than the Copy URL extension in Firefox since I can now assign a hotkey to it, again using Quicksilver.
+This pulls the URL out of the tab (i.e. the "front document"), picks the title out of the current tab, then assigns them both to the clipboard with a carriage return between them.  You can see the "gist":http://gist.github.com/70565 of it here as well. I actually like this approach better than the Copy URL extension in Firefox since I can now assign a hotkey to it, again using Quicksilver.
 
 I can't say I'm a fan of the AppleScript syntax, but I do love what it can do for me.
