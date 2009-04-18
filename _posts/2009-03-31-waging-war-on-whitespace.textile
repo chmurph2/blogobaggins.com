@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Waging War on Whitespace (using TextMate)
-date: March 31, 2009 – Leesburg, VA
+date: March 31, 2009
 ---
 
 If you've ever written code on a team, you've likely encountered what I call _diff cruft._  Diff cruft is what happens when a developer commits a change to some code that has trailing whitespace (either tabs or spaces) at the end of a line.  When viewing the code changes in a diff, this extraneous whitespace stands out and often distracts from what is important.
