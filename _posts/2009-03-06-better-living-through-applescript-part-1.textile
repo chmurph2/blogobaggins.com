@@ -1,11 +1,9 @@
 ---
 layout: post
 title: Better Living Through AppleScript, Part 1
+date: March 6, 2009 – Leesburg, VA
+
 ---
-
-h1. {{ page.title }}
-
-p(meta). March 6, 2009 - Leesburg, VA
 
 I've been heavily trying out "Safari 4":http://www.apple.com/safari/features.html (on OS X) since the beta was announced a couple weeks ago.  There is a lot to like about it: super-fast, the address field is "smarter," Firebug-like support built-in, images scale on zoom, new tab look, and top sites to name the obvious ones.
 
