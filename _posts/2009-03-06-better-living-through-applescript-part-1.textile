@@ -16,7 +16,7 @@ A wonderful thing about OS X is I can often overcome these problems by using "Ap
 
 The tab shortcut problem is solved using a combination of "Quicksilver":http://is.gd/q7d and Grant Hollingworth's "command-number-tab":http://github.com/granth/command-number-tab/tree/master bundle of AppleScripts.  I assign the keyboard shortcuts for command 1-9 (for Safari "scope" only) using Quicksilver's triggers.
 
-I had to solve the Copy URL problem myself (read: google around and assemble bits and pieces of varying AppleScripts).  Here it is:
+I had to solve the Copy URL problem myself.  Here it is:
 
 {% highlight applescript %}
 tell application "Safari"
