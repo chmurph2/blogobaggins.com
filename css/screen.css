@@ -188,19 +188,19 @@ ul.posts {
     background-color: #333;
   }
 
-#related {
-  margin-top: 2em;
-}
-
-  #related h2 {
-    margin-bottom: 1em;
+  #related {
+    margin-top: 2em;
   }
 
-.footnote {
-  margin: 0;
-  color: #5e5e5e;
-}
+    #related h2 {
+      margin-bottom: 1em;
+    }
 
-.highlight br {
-    display: none;
-}
+  #post .footnote {
+    margin: 0;
+    color: #5e5e5e;
+  }
+
+  #post .highlight br {
+      display: none;
+  }
