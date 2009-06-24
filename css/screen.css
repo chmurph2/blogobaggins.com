@@ -202,5 +202,9 @@ ul.posts {
   }
 
   #post .highlight br {
-      display: none;
+    display: none;
+  }
+
+  #post ol li {
+    padding-top: 0.5em;
   }
