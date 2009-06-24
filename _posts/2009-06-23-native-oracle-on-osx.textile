@@ -101,7 +101,7 @@ h2. Install Oracle
 {% highlight text %}
 cmurphy:~ oracle$ export DISPLAY=localhost:0
 {% endhighlight %}
-# Trick the Oracle Installer to use localhost (useful if you use DHCP for your network configuration[4]):
+# Trick the Oracle Installer to use localhost (useful if you use DHCP for your network configuration[3]):
 {% highlight text %}
 cmurphy:~ oracle$ export ORACLE_HOSTNAME=localhost
 {% endhighlight %}
@@ -145,7 +145,7 @@ System altered.
 SQL> alter system register;
 System altered.
 {% endhighlight %}
-# Make sure your @tnsnames.ora@[3] file contains the following:
+# Make sure your @tnsnames.ora@[4] file contains the following:
 {% highlight text %}
 DEV =
   (DESCRIPTION =
