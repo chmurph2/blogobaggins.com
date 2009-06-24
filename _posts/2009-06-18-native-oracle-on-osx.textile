@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Installing Oracle Natively on OS X Leopard
-date: June 18, 2009
+date: June 23, 2009
 ---
 
 <div style="text-align:center">
