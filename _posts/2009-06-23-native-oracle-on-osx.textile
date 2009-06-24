@@ -47,12 +47,12 @@ sudo dscl . -append /users/oracle uid 4200
 sudo dscl . -append /users/oracle gid 4200
 sudo dscl . -append /users/oracle shell /bin/bash
 sudo dscl . -append /users/oracle home /Users/oracle
-sudo dscl . -append /users/oracle realname /
+sudo dscl . -append /users/oracle realname \
  "Oracle software owner"
 sudo dscl . -append /Groups/dba GroupMembership oracle
 sudo mkdir /Users/oracle
 sudo chown oracle:dba /Users/oracle
-sudo defaults write /Library/Preferences/com.apple.loginwindow /
+sudo defaults write /Library/Preferences/com.apple.loginwindow \
  HiddenUsersList -array-add oracle
 sudo passwd oracle # use a good password
 {% endhighlight %}
