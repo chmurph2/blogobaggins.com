@@ -1,0 +1,252 @@
+---
+layout: post
+title: Installing Oracle Natively on OS X Leopard
+date: June 18, 2009
+---
+
+<div style="text-align:center">
+!/images/oracle/leopard_oracle.png(Oracle on OS X Leopard)!
+</div>
+
+Oracle 10g server was recently ported[1] to run on OS X Leopard.  Besides the ginormous "installation guide":http://download.oracle.com/docs/cd/B19306_01/install.102/b25286/toc.htm by Oracle, there are a handful of helpful quick install guides already out there.  Following them, though, I found that I still had issues installing it, and had additional needs that required sifting through comments, googling, etc.
+
+So, here are my notes, borrowed heavily from the resources below. Perhaps they will alleviate some of the pain I experienced, for other souls unfortunate enough to have to install and use this overly-complicated database.
+
+h2. Resources:
+
+* "Quick Install Guide for Oracle 10g Release 2 on Mac OS X Leopard (Intel) | Pythian Group Blog":http://www.pythian.com/news/1937/quick-install-guide-for-oracle-10g-release-2-on-mac-os-x-leopard-intel
+* "How to install Oracle Database 10g on Mac OS X Intel « ray_apps_blog":http://blog.rayapps.com/2009/04/12/how-to-install-oracle-database-10g-on-mac-os-x-intel
+
+h2. Prerequisites
+
+* OS X 10.5.4[2] or higher.
+* Xcode 3.0
+* 5 GB disk space
+* 2 GB RAM (at least)
+
+h2. Problems/Givens:
+* Ideally, it's best to connect to a remote development database, maintained by a DBA.  Obviously this isn't always an option, and until now running Oracle on OS X required a separate virtual machine running a guest operating system like CentOS.
+* In my opinion, maintaining a separate virtual machine and operating system solely for developing with Oracle is inefficient and a burden.
+* Native Oracle on OS X allows your own user account to use commands like sqlplus, sqlldr, imp, exp, etc.  "Instant Client":http://www.oracle.com/technology/tech/oci/instantclient/index.html only provides SQL*Plus.  In the end, you'll have less moving parts, and it'll likely be faster with less of a memory footprint.
+
+h2. Create the oracle user and dba group
+# Start downloading the "binaries of OS X":http://www.oracle.com/technology/software/products/database/oracle10g/htdocs/10204macsoft_x86-64.html.
+# Open @/Applications/Utilities/Terminal.app@
+# Let's use 4200 as the GUI and UID, so check if they are available:
+{% highlight text %}
+cmurphy:~ oracle$ dscl . -list /groups gid | grep 4200
+cmurphy:~ oracle$ dscl . -list /users uid | grep 4200
+{% endhighlight %}
+# Create the oracle account in the dba group:
+{% highlight text %}
+cmurphy@cmurphy$ sudo dscl . -create /groups/dba
+sudo dscl . -append /groups/dba gid 4200
+sudo dscl . -append /groups/dba passwd "*"
+sudo dscl . -create /users/oracle
+sudo dscl . -append /users/oracle uid 4200
+sudo dscl . -append /users/oracle gid 4200
+sudo dscl . -append /users/oracle shell /bin/bash
+sudo dscl . -append /users/oracle home /Users/oracle
+sudo dscl . -append /users/oracle realname /
+ "Oracle software owner"
+sudo dscl . -append /Groups/dba GroupMembership oracle
+sudo mkdir /Users/oracle
+sudo chown oracle:dba /Users/oracle
+sudo defaults write /Library/Preferences/com.apple.loginwindow /
+ HiddenUsersList -array-add oracle
+sudo passwd oracle # use a good password
+{% endhighlight %}
+# Add the following to /etc/sysctl.conf (create the file if needed) with sudo:
+{% highlight text %}
+kern.sysv.shmall=2097152
+kern.sysv.shmmni=4096
+kern.maxproc=1024
+kern.maxprocperuid=512
+{% endhighlight %}
+# Reboot.  Yes, you have to.
+# Use oracle’s home directory @/Users/oracle@ for Oracle's installation directory (oracle base):
+{% highlight text %}
+cmurphy@cmurphy$ cd /Users/oracle/
+cmurphy@cmurphy$ sudo mkdir oracle
+cmurphy@cmurphy$ sudo chmod 775 oracle
+{% endhighlight %}
+# Login as oracle user and create a bash profile:
+{% highlight text %}
+cmurphy@cmurphy$ su - oracle
+cmurphy@cmurphy$ vi .bash_profile
+{% endhighlight %}
+# Put the following in .bash_profile:
+{% highlight bash %}
+# Must match kern.maxprocperuid
+ulimit -Hu 512
+ulimit -Su 512
+# Must match kern.maxfilesperproc
+ulimit -Hn 10240
+ulimit -Sn 10240
+export ORACLE_BASE=/Users/oracle/oracle
+export ORACLE_HOME=$ORACLE_BASE/product/10.2.0/db_1
+export DYLD_LIBRARY_PATH=$ORACLE_HOME/lib
+export ORACLE_SID=dev
+PATH=$PATH:/$ORACLE_HOME/bin
+{% endhighlight %}
+
+h2. Install Oracle
+# launch the X11 application:
+@Applications -> Utilities -> X11@
+# login as oracle user
+{% highlight text %}
+[cmurphy@cmurphy]$su - oracle
+{% endhighlight %}
+# export the DISPLAY variable so the Oracle installer will launch.
+{% highlight text %}
+cmurphy:~ oracle$ export DISPLAY=localhost:0
+{% endhighlight %}
+# Trick the Oracle Installer to use localhost (useful if you use DHCP for your network configuration[4]):
+{% highlight text %}
+cmurphy:~ oracle$ export ORACLE_HOSTNAME=localhost
+{% endhighlight %}
+# Launch the Oracle installer (I unzipped the Oracle binary in oracle's home directory):
+{% highlight text %}
+cmurphy:~ oracle$ /Users/oracle/db/Disk1/runInstaller
+{% endhighlight %}
+# Select the @Advanced@ installation option on the first screen.
+# Specify the location for the Oracle inventory to be under $ORACLE_BASE: @/Users/oracle/oracle/oraInventory@
+# Specify the Inventory OS group: @dba@
+# Leave defaults for the rest of the screens until it's time to select a *SID*...
+# Use @dev@ for the Global Database Name and *SID*.
+# You can also tick the box to create sample schemas on the same screen so you have some data to play with.
+# Set passwords for the internal Oracle users.  I set the same password for all users.
+# Click Install.
+# While installing iSqlPlus, the installer will prompt you to manually execute two scripts: orainstRoot.sh and root.sh. Run them with sudo.
+# When done, close the X11 application.
+
+h2. Connecting to dev
+# Start the listener:
+{% highlight text %}
+[cmurphy@cmurphy]$su - oracle
+cmurphy:~ oracle$ lsnrctl start
+{% endhighlight %}
+# Use SQL*Plus to point the local listener to the @dev@ tnsname:
+{% highlight text %}
+cmurphy:~ oracle$ sqlplus system@dev
+{% endhighlight %}
+{% highlight text %}
+SQL> show parameter listener
+NAME             TYPE        VALUE
+---------------- ----------- -----------------
+local_listener   string      LISTENER_DEV
+remote_listener  string
+{% endhighlight %}
+{% highlight text %}
+SQL> alter system set local_listener='DEV';
+System altered.
+{% endhighlight %}
+{% highlight text %}
+SQL> alter system register;
+System altered.
+{% endhighlight %}
+# Make sure your @tnsnames.ora@[3] file contains the following:
+{% highlight text %}
+DEV =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = dev)
+    )
+  )
+{% endhighlight %}
+
+h2. Administer Oracle from a non-oracle user.
+
+You'll likely want to administer your database using your normal account, not the oracle account (if not, you're done).  To do so, we need to _relax_ some permissions. There is a script that does just this at @$ORACLE_HOME/install/changePerm.sh@. However, the changePerm.sh is not adapted to OS X and uses the wrong default utility locations (like awk, grep, etc.).
+
+See "this":http://www.pythian.com/news/1937/quick-install-guide-for-oracle-10g-release-2-on-mac-os-x-leopard-intel#comment-361404 if you'd like more detail.
+
+# Edit and fix the locations:
+{% highlight text %}
+[cmurphy@cmurphy]$su - oracle
+cmurphy:~ oracle$ vi $ORACLE_HOME/install/changePerm.sh
+{% endhighlight %}
+# Find the Macros section, and replace with the following:
+{% highlight bash %}
+# Macros
+CHMOD="/bin/chmod"
+CHOWN="/usr/sbin/chown"
+AWK="/usr/bin/awk"
+GREP="/usr/bin/grep"
+LS="/bin/ls"
+CUT="/usr/bin/cut"
+ECHO="/bin/echo"
+RM="/bin/rm"
+CAT="/bin/cat"
+CP="/bin/cp"
+SORT="/usr/bin/sort"
+TOUCH="/usr/bin/touch"
+ID="/usr/bin/id"
+FIND="/usr/bin/find"
+CWD="/bin/pwd"
+TR="/usr/bin/tr"
+TEST="/bin/test"
+COMM="/usr/bin/comm"
+{% endhighlight %}
+# Run the script:
+{% highlight text %}
+cmurphy:~ oracle$ ./changePerm.sh
+{% endhighlight %}
+# _Startup/shutdown of Oracle database_: edit @/etc/oratab@ with @sudo@ and change the N to @Y@ at the end of line for ORCL database – this will be used by the dbstart utility to find which databases should be started automatically.
+# Add the following to *your* user account's @.bashrc@ (or .bash_profile, .bash_local, whatever):
+{% highlight bash %}
+# Must match kern.maxprocperuid
+ulimit -Hu 512
+ulimit -Su 512
+# Must match kern.maxfilesperproc
+ulimit -Hn 10240
+ulimit -Sn 10240
+export ORACLE_BASE=/Users/oracle/oracle
+export ORACLE_HOME=$ORACLE_BASE/product/10.2.0/db_1
+export DYLD_LIBRARY_PATH=$ORACLE_HOME/lib
+export ORACLE_SID=dev
+PATH=$PATH:$ORACLE_HOME/bin
+alias ostart="sudo -u oracle /bin/bash -l -c
+ '$ORACLE_HOME/bin/dbstart $ORACLE_HOME'"
+alias oshut="sudo -u oracle /bin/bash -l -c
+ '$ORACLE_HOME/bin/dbshut $ORACLE_HOME'"
+{% endhighlight %}
+# Restart your Terminal tab to pick up the bash changes.
+# Now, from your own user account, you can start/shutdown the Oracle database with @ostart@ and @oshut@, and connect using sqlplus, sqlldr, etc.:
+{% highlight text %}
+[cmurphy@cmurphy]$ oshut
+Password:
+Processing Database instance "dev": log file
+ /Users/oracle/oracle/product/10.2.0/db_1/shutdown.log
+{% endhighlight %}
+{% highlight text %}
+[cmurphy@cmurphy]$ ostart
+Processing Database instance "dev": log file
+ /Users/oracle/oracle/product/10.2.0/db_1/startup.log
+[cmurphy@cmurphy]$ sqlplus system@dev
+{% endhighlight %}
+{% highlight text %}
+SQL*Plus: Release 10.2.0.4.0 - Production on Tue Jun 16...
+Copyright (c) 1982, 2007, Oracle.  All Rights Reserved.
+Enter password:
+Connected to:
+Oracle Database 10g Enterprise Edition Release 10.2.0.4.0...
+With the Partitioning, OLAP, Data Mining and Real Application...
+SQL> select * from dual;
+D
+-
+X
+SQL>
+{% endhighlight %}
+# Done!
+<br/>
+
+fn1. And released April 11th, 2009.
+
+fn2. The Oracle install guide claims OS X Server is required.  Ignore that: desktop OS X Leopard works just fine, especially for development.
+
+fn3. DHCP will change your IP address as well as the hostname dynamically; so setting the ORACLE_HOSTNAME environment variable will work around this.
+
+fn4. @oracle/product/10.2.0/db_1/network/admin/tnsnames.ora@
