@@ -30,7 +30,7 @@ h2. Problems/Givens:
 * Native Oracle on OS X allows your own user account to use commands like sqlplus, sqlldr, imp, exp, etc.  "Instant Client":http://www.oracle.com/technology/tech/oci/instantclient/index.html only provides SQL*Plus.  In the end, you'll have less moving parts, and it'll likely be faster with less of a memory footprint.
 
 h2. Create the oracle user and dba group
-# Start downloading the "binaries of OS X":http://www.oracle.com/technology/software/products/database/oracle10g/htdocs/10204macsoft_x86-64.html.
+# Start downloading the "Oracle binaries for OS X":http://www.oracle.com/technology/software/products/database/oracle10g/htdocs/10204macsoft_x86-64.html.
 # Open @/Applications/Utilities/Terminal.app@
 # Let's use 4200 as the GUI and UID, so check if they are available:
 {% highlight text %}
